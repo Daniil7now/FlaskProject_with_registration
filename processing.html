@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Processed Data - ProfitScan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            overflow-x: auto;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2e2e2e;
+            color: #90caf9;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+
+        a {
+            color: #64b5f6;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Processed Data Table</h1>
+
+    <div class="table-container">
+        {% for table in tables %}
+            {{ table | safe }}
+        {% endfor %}
+    </div>
+
+    <a href="/">Go back to upload files</a>
+    <a href="{{ url_for('download_processed_excel') }}">Download as Excel</a>
+</body>
+</html>

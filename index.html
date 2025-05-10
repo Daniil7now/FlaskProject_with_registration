@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Files - ProfitScan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #cccccc;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"]::file-selector-button {
+            background-color: #333;
+            color: #e0e0e0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #555;
+        }
+
+        button {
+            width: 100%;
+            background-color: #2979ff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #1565c0;
+        }
+
+        ul.flash-messages {
+            padding: 0;
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        ul.flash-messages li {
+            color: #ff6b6b;
+            font-size: 14px;
+        }
+
+        .expander-toggle {
+            background-color: #2a2a2a;
+            border: none;
+            color: #00bcd4;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: left;
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .expander-content {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            display: none;
+            font-size: 14px;
+            color: #cccccc;
+        }
+
+        .expander-content ul {
+            padding-left: 18px;
+        }
+
+        .expander-content li {
+            color: #cccccc;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+    </style>
+    <script>
+        function toggleExpander() {
+            const content = document.getElementById('instructionContent');
+            content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Data Files</h1>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="customers_file">Customers File</label>
+            <input type="file" name="customers_file" id="customers_file">
+
+            <label for="invoices_file">Invoices File</label>
+            <input type="file" name="invoices_file" id="invoices_file">
+
+            <label for="products_file">Products File</label>
+            <input type="file" name="products_file" id="products_file">
+
+            <label for="expenses_file">Expenses File</label>
+            <input type="file" name="expenses_file" id="expenses_file">
+
+            <button type="submit">Upload Files</button>
+        </form>
+
+        <form action="{{ url_for('logout') }}" method="get">
+            <button type="submit">Log Out</button>
+        </form>
+
+        <button class="expander-toggle" onclick="toggleExpander()">Instructions</button>
+        <div class="expander-content" id="instructionContent">
+            <ul>
+                <li>Please upload the required data files in the sidebar. The files must be in CSV or Excel format.</li>
+                <li>Each file should contain specific columns for the application to work properly:</li>
+                <li>Customers file: Must include a 'Customer' column.</li>
+                <li>Invoices file: Must include 'Invoice_No', 'Customer', 'Product', 'Quantity', and 'Sales_Amount' columns.</li>
+                <li>Products file: Must include a 'Product' column. Either a 'Product_Cost' or 'Cost_%' column is also required.</li>
+                <li>Expenses file: Must include 'Expense' and 'Amount' columns.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

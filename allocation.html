@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Define Expense Allocation Rules - ProfitScan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+            width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            color: #90caf9;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #cccccc;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .checkbox-label {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            color: #cccccc;
+        }
+
+        button {
+            width: 100%;
+            background-color: #ffa726;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #fb8c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Define Allocation Rules for Expenses</h1>
+
+        <form method="post">
+            {% for expense in expenses %}
+                <h3>Expense: {{ expense['Expense'] }}</h3>
+
+                <label for="rule_{{ loop.index0 }}">Allocation Rule:</label>
+                <input type="text" name="rule_{{ loop.index0 }}" id="rule_{{ loop.index0 }}" placeholder="e.g., City=Orlando">
+
+                <label for="tran_{{ loop.index0 }}">Transaction Allocation Percentage (0 to 100):</label>
+                <input type="number" name="tran_{{ loop.index0 }}" id="tran_{{ loop.index0 }}" value="50" min="0" max="100">
+
+                <label class="checkbox-label">
+                    <input type="checkbox" name="weight_{{ loop.index0 }}">
+                    Apply weight?
+                </label>
+
+                <hr style="border: 1px solid #444; margin: 30px 0;">
+            {% endfor %}
+            <button type="submit">Save Rules and Process</button>
+
+             <details style="margin-top: 20px;">
+            <summary style="cursor: pointer; font-weight: bold; color: #ffa726;">
+                Instructions
+            </summary>
+            <ul style="margin-top: 10px;">
+                <li>Use the format: Feature=Value (e.g., City=Orlando)</li>
+                <li>Use <code>;</code> to apply multiple conditions (AND): <br><code>City=Orlando;Customer=John</code></li>
+                <li>Use <code>|</code> for alternative matches (OR): <br><code>City=Orlando|New York</code></li>
+                <li>If the field is empty, all the characteristics will be calculated.</li>
+            </ul>
+        </details>
+
+        </form>
+    </div>
+</body>
+</html>
